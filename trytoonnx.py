@@ -6,16 +6,10 @@ import onnxruntime as ort
 import torchaudio
 torchaudio.set_audio_backend("soundfile")
 
-
 # 載入模型
 model = whisper.load_model("base")
 transcription_result = model.transcribe("audio.flac")
-# transcription_result = model.transcribe("audio.mp3")
-# transcription_result = model.transcribe("audio.wav")
-
-# print(transcription_result["text"])
 print("識別结果： " + transcription_result["text"])
-
 
 # 創建一個虛擬的輸入
 num_samples = 16000  # 假設音頻文件有 16000 個樣本
@@ -44,12 +38,11 @@ else:
     padding = desired_length - audio.size(0)
     audio = torch.nn.functional.pad(audio, (0, padding))
 
-input_data = audio.unsqueeze(0).unsqueeze(0).numpy()
+# 將音頻數據的通道數擴展為80
+audio = audio.unsqueeze(0).expand(1, 80, -1)
 
-# 執行推論
+# 轉換為NumPy數組並將其作為輸入傳遞給ONNX模型
+input_data = audio.numpy()
 outputs = ort_session.run(None, {'input': input_data, 'tokens': [0]})
 
-# 解析輸出結果
-transcription = outputs[0][0].decode('utf-8')
-
-print("識別結果：", transcription)
+print("ONNX模型輸出結果：", outputs)
