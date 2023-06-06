@@ -11,10 +11,17 @@ model = whisper.load_model("base")
 transcription_result = model.transcribe("audio.flac")
 print("識別结果： " + transcription_result["text"])
 
+
+
 # 創建一個虛擬的輸入
 num_samples = 16000  # 假設音頻文件有 16000 個樣本
 input_size = (1, 1, num_samples)  # 設置輸入形狀為 1x1xnum_samples
-dummy_input = torch.randn(*input_size)
+# 確保在創建虛擬輸入 dummy_input 時，已經正確指定了輸入的通道數量為 80
+dummy_input = torch.randn(1, 80, num_samples)
+
+# print("Input type:", type(input_data))
+# print("Input size:", input_size)
+
 
 # 將模型轉換為ONNX格式
 onnx_filename = "model.onnx"  # 設定要保存的ONNX文件名稱
@@ -39,10 +46,13 @@ else:
     audio = torch.nn.functional.pad(audio, (0, padding))
 
 # 將音頻數據的通道數擴展為80
-audio = audio.unsqueeze(0).expand(1, 80, -1)
+audio = audio.expand(-1, 80, -1)
+
 
 # 轉換為NumPy數組並將其作為輸入傳遞給ONNX模型
 input_data = audio.numpy()
 outputs = ort_session.run(None, {'input': input_data, 'tokens': [0]})
 
+print("Input type:", type(input_data))
+print("Input size:", input_size)
 print("ONNX模型輸出結果：", outputs)
