@@ -80,6 +80,7 @@ Whisper's performance varies widely depending on the language. The figure below 
 ====
 
 The following command will transcribe speech in audio files, using the medium model:
+( -w ignore)
 
     python -w ignore cli.py audio.wav --model medium
 
@@ -88,11 +89,11 @@ The following command will transcribe speech in audio files, using the medium mo
 以上指令請在 ...\OpenAI_Whisper\venv\Lib\site-packages\humanfriendly> 目錄下執行 for cli.py 語音轉文字
 ====
 
-The following command will onnx export:
+The following command will onnx export: (python3 --> python)
 
-    python3 cli.py audio.wav --model medium --export_encoder
+    python cli.py audio.wav --model medium --export_encoder
 
-    python3 cli.py audio.wav --model medium --export_decoder
+    python cli.py audio.wav --model medium --export_decoder
 
 
 ====
