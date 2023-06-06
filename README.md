@@ -77,7 +77,21 @@ Whisper's performance varies widely depending on the language. The figure below 
 
 
 ## Command-line usage
+====
+The following command will transcribe speech in audio files, using the medium model:
+python -w ignore cli.py audio.wav --model medium
 
+whisper audio.flac audio.mp3 audio.wav --model medium
+
+¥H¤W½Ð¦b..OpenAI_Whisper\venv\Lib\site-packages\humanfriendly>¥Ø¿ý¤U°õ¦æ for cli.py »y­µÂà¤å¦r
+====
+The following command will onnx export:
+python3 cli.py audio.wav --model medium --export_encoder
+
+python3 cli.py audio.wav --model medium --export_decoder
+
+
+====
 The following command will transcribe speech in audio files, using the `medium` model:
 
     whisper audio.flac audio.mp3 audio.wav --model medium
@@ -139,7 +153,7 @@ print(result.text)
 
 ## More examples
 
-Please use the [ðŸ™Œ Show and tell](https://github.com/openai/whisper/discussions/categories/show-and-tell) category in Discussions for sharing more example usages of Whisper and third-party extensions such as web demos, integrations with other tools, ports for different platforms, etc.
+Please use the [?? Show and tell](https://github.com/openai/whisper/discussions/categories/show-and-tell) category in Discussions for sharing more example usages of Whisper and third-party extensions such as web demos, integrations with other tools, ports for different platforms, etc.
 
 
 ## License
